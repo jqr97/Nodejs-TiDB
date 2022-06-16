@@ -15,7 +15,7 @@
 4. Install the Prisma API:
     run the following code in terminal:
     
-    npm install @prisma/client
+        npm install @prisma/client
         
         npx prisma generate
 
