@@ -1,12 +1,34 @@
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
+const express = require('express')
+const app = express()
+const port = 3000
+
+
+
+app.get('/', (req, res) => {
+    ReadAll()
+        .then(entry => {
+            console.log(entry);
+            res.send(entry);
+        })
+});
+
+app.get('/entry', (req, res) => {
+    ReadAll()
+        .then(entry => {
+            console.log(entry);
+            res.send(entry);
+        })
+});
+
+app.listen(port, () => console.log(`Hello world app listening on port ${port}!`))
 
 async function ReadAll() {
-
-    // ... you will write your Prisma Client queries here
     const allEntry = await prisma.entry.findMany()
 
-    console.log(allEntry)
+    // console.log(allEntry)
+    return allEntry
 }
 
 async function Create(title, slug, content, published, timestamp) {
@@ -49,15 +71,14 @@ async function Delete(slug) {
 }
 
 async function main() {
-    await Update('aaaaaaa', 'asdfa', 1, new Date("2022-06-15T15:05:54.000Z"))
     ReadAll()
 
 }
 
-main()
-    .catch((e) => {
-        throw e
-    })
-    .finally(async() => {
-        await prisma.$disconnect()
-    })
+// main()
+//     .catch((e) => {
+//         throw e
+//     })
+//     .finally(async() => {
+//         await prisma.$disconnect()
+//     })
