@@ -1,4 +1,4 @@
-1. change the provider = in prisma/schema.prisma file:
+1. change the provider = in prisma/schema.prisma file: \n
     provider = "mysql"
 
 2. change the .env file:
