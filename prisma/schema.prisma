@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model entry {
+  id        Int      @id
+  title     String   @db.VarChar(255)
+  slug      String   @unique(map: "entry_slug") @db.VarChar(255)
+  content   String   @db.LongText
+  published Int
+  timestamp DateTime @db.DateTime(0)
+
+  @@index([published], map: "entry_published")
+  @@index([timestamp], map: "entry_timestamp")
+}
+
+model ftsentry {
+  docid   Int     @id
+  content String? @db.LongText
+}
+
+model ftsentry_content {
+  docid     Int     @id
+  c0content String? @db.LongText
+}
+
+model ftsentry_docsize {
+  docid Int    @id
+  size  Bytes? @db.Blob
+}
+
+model ftsentry_segdir {
+  level            Int
+  idx              Int
+  start_block      Int?
+  leaves_end_block Int?
+  root             Bytes? @db.Blob
+
+  @@id([level, idx])
+}
+
+model ftsentry_segments {
+  blockid Int    @id
+  block   Bytes? @db.Blob
+}
+
+model ftsentry_stat {
+  id    Int    @id
+  value Bytes? @db.Blob
+}
