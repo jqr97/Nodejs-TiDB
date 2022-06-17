@@ -1,10 +1,12 @@
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 const express = require('express')
+const bodyParser = require('body-parser')
 const app = express()
 const port = 3000
 
-
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
     ReadAll()
@@ -21,6 +23,27 @@ app.get('/entry', (req, res) => {
             res.send(entry);
         })
 });
+
+app.get('/create', (req, res) => {
+    entry = req.query;
+    console.log(entry);
+    title = entry.title;
+    slug = entry.slug;
+    content = entry.content;
+    published = parseInt(entry.published);
+    var dateTime = new Date();
+    timestamp = dateTime;
+    Create(title, slug, content, published, timestamp)
+        .finally(async() => {
+                await ReadAll()
+                    .then(entry => {
+                        console.log(entry);
+                        res.send(entry);
+                    })
+            }
+
+        )
+})
 
 app.listen(port, () => console.log(`Hello world app listening on port ${port}!`))
 
