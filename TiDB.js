@@ -45,6 +45,41 @@ app.get('/create', (req, res) => {
         )
 })
 
+app.get('/delete', (req, res) => {
+    entry = req.query;
+    console.log(entry);
+    slug = entry.slug;
+    Delete(slug)
+        .finally(async() => {
+            await ReadAll()
+                .then(entry => {
+                    console.log(entry);
+                    res.send(entry);
+                })
+        })
+
+})
+
+app.get('/update', (req, res) => {
+    entry = req.query;
+    console.log(entry);
+    slug = entry.slug;
+    content = entry.content;
+    published = parseInt(entry.published);
+    var dateTime = new Date();
+    timestamp = dateTime;
+    Update(slug, content, published, timestamp)
+        .finally(async() => {
+            await ReadAll()
+                .then(entry => {
+                    console.log(entry);
+                    res.send(entry);
+                })
+        })
+
+})
+
+
 app.listen(port, () => console.log(`Hello world app listening on port ${port}!`))
 
 async function ReadAll() {
