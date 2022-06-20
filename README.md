@@ -1,20 +1,34 @@
 # Steps to setup prisma ORM
+1. initialize a Node.js project and add the Prisma CLI as a development dependency to it
 
-1. change the provider = in prisma/schema.prisma file:
+        npm init -y
+        npm install prisma --save-dev
+
+2. invoke the Prisma CLI by prefixing it with npx
+        
+        npx prisma
+
+3. set up your Prisma project by creating your Prisma schema file with the following command:
+
+        npx prisma init
+
+# Connect to the database
+
+4. change the provider = in prisma/schema.prisma file:
 
     provider = "mysql"
 
-2. change the .env file:
+5. change the .env file:
     
     DATABASE_URL="mysql://[username]:[password]@[hostip url]:[port number]/[database name]"
 
-3. Introspect the database
+6. Introspect the database
     
     run the following code in terminal:
         
         npx prisma db pull
         
-4. Install the Prisma API:
+7. Install the Prisma API:
 
     run the following code in terminal:
     
